@@ -3,8 +3,8 @@ package main
 // A very simple music player. Takes an audio file as its argument.
 
 import (
-	tl "github.com/JoelOtter/termloop"
-	tlx "github.com/JoelOtter/termloop/extra"
+	tl "github.com/ilackarms/termloop"
+	tlx "github.com/ilackarms/termloop/extra"
 	"os"
 )
 
