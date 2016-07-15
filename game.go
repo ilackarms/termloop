@@ -118,3 +118,34 @@ mainloop:
 		time.Sleep(time.Duration((update.Sub(time.Now()).Seconds()*1000.0)+1000.0/g.screen.fps) * time.Millisecond)
 	}
 }
+
+// Start starts a Game running in server mode (NoDraw). This should be the last thing called in your
+// main function. By default, the escape key exits.
+func (g *Game) StartServerMode() {
+	clock := time.Now()
+
+	mainloop:
+	for {
+		update := time.Now()
+		g.screen.delta = update.Sub(clock).Seconds()
+		clock = update
+
+		select {
+		case ev := <-g.input.eventQ:
+			if ev.Key == g.input.endKey {
+				break mainloop
+			} else if EventType(ev.Type) == EventResize {
+				g.screen.resize(ev.Width, ev.Height)
+			} else if EventType(ev.Type) == EventError {
+				g.Log(ev.Err.Error())
+			}
+			g.screen.Tick(convertEvent(ev))
+		default:
+			g.screen.Tick(Event{Type: EventNone})
+		}
+
+		// If g.screen.fps is zero (the default), then 1000.0/g.screen.fps -> +Inf -> time.Duration(+Inf), which
+		// is a negative number, and so time.Sleep returns immediately.
+		time.Sleep(time.Duration((update.Sub(time.Now()).Seconds()*1000.0)+1000.0/g.screen.fps) * time.Millisecond)
+	}
+}
