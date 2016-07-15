@@ -13,16 +13,16 @@ type Level interface {
 // BaseLevel type represents a Level with a background defined as a Cell,
 // which is tiled. The background is drawn first, then all Entities.
 type BaseLevel struct {
-	Entities []Drawable
-	bg       Cell
-	offsetx  int
-	offsety  int
+	Entities []Drawable `json:"Entities"`
+	Bg       Cell `json:"Bg"`
+	Offsetx  int `json:"Offsetx"`
+	Offsety  int `json:"Offsety"`
 }
 
 // NewBaseLevel creates a new BaseLevel with background bg.
 // Returns a pointer to the new BaseLevel.
 func NewBaseLevel(bg Cell) *BaseLevel {
-	level := BaseLevel{Entities: make([]Drawable, 0), bg: bg}
+	level := BaseLevel{Entities: make([]Drawable, 0), Bg: bg}
 	return &level
 }
 
@@ -66,7 +66,7 @@ func (l *BaseLevel) Tick(ev Event) {
 func (l *BaseLevel) DrawBackground(s *Screen) {
 	for i, row := range s.canvas {
 		for j, _ := range row {
-			s.canvas[i][j] = l.bg
+			s.canvas[i][j] = l.Bg
 		}
 	}
 }
@@ -74,7 +74,7 @@ func (l *BaseLevel) DrawBackground(s *Screen) {
 // Draw draws the level's entities to the Screen s.
 func (l *BaseLevel) Draw(s *Screen) {
 	offx, offy := s.offset()
-	s.setOffset(l.offsetx, l.offsety)
+	s.setOffset(l.Offsetx, l.Offsety)
 	for _, e := range l.Entities {
 		e.Draw(s)
 	}
@@ -98,14 +98,14 @@ func (l *BaseLevel) RemoveEntity(d Drawable) {
 
 // Offset returns the level's drawing offset.
 func (l *BaseLevel) Offset() (int, int) {
-	return l.offsetx, l.offsety
+	return l.Offsetx, l.Offsety
 }
 
 // SetOffset sets the level's drawing offset to be (x, y).
 // The drawing offset can be used to simulate moving the level, or
 // moving the 'camera'.
 func (l *BaseLevel) SetOffset(x, y int) {
-	l.offsetx, l.offsety = x, y
+	l.Offsetx, l.Offsety = x, y
 }
 
 func checkCollisionsWorker(ps []Physical, jobs <-chan DynamicPhysical, results chan<- int) {

@@ -108,9 +108,9 @@ func max(a, b int) int {
 
 // Represents a character to be drawn on the screen.
 type Cell struct {
-	Fg Attr // Foreground colour
-	Bg Attr // Background color
-	Ch rune // The character to draw
+	Fg Attr `json:"Fg"` // Foreground colour
+	Bg Attr `json:"Bg"` // Background color
+	Ch rune `json:"Ch"` // The character to draw
 }
 
 func (c *Cell) equals(c2 *Cell) bool {

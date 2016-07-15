@@ -157,10 +157,10 @@ func (b *Block) Tick(ev tl.Event) {
 
 func (b *Block) Collide(c tl.Physical) {
 	if r, ok := c.(*tl.Rectangle); ok {
-		if r.Color() == tl.ColorWhite {
+		if r.GetColor() == tl.ColorWhite {
 			// Collision with walls
 			b.r.SetPosition(b.px, b.py)
-		} else if r.Color() == tl.ColorBlue {
+		} else if r.GetColor() == tl.ColorBlue {
 			// Collision with end - new level!
 			b.w += 1
 			b.h += 1

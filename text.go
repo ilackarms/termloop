@@ -2,12 +2,12 @@ package termloop
 
 // Text represents a string that can be drawn to the screen.
 type Text struct {
-	x      int
-	y      int
-	fg     Attr
-	bg     Attr
-	text   []rune
-	canvas []Cell
+	X      int `json:"X"`
+	Y      int `json:"Y"`
+	Fg     Attr `json:"Fg"`
+	Bg     Attr `json:"Bg"`
+	Text   []rune `json:"Text"`
+	Canvas []Cell `json:"Canvas"`
 }
 
 // NewText creates a new Text, at position (x, y). It sets the Text's
@@ -21,12 +21,12 @@ func NewText(x, y int, text string, fg, bg Attr) *Text {
 		c[i] = Cell{Ch: str[i], Fg: fg, Bg: bg}
 	}
 	return &Text{
-		x:      x,
-		y:      y,
-		fg:     fg,
-		bg:     bg,
-		text:   str,
-		canvas: c,
+		X:      x,
+		Y:      y,
+		Fg:     fg,
+		Bg:     bg,
+		Text:   str,
+		Canvas: c,
 	}
 }
 
@@ -36,53 +36,53 @@ func (t *Text) Tick(ev Event) {}
 func (t *Text) Draw(s *Screen) {
 	w, _ := t.Size()
 	for i := 0; i < w; i++ {
-		s.RenderCell(t.x+i, t.y, &t.canvas[i])
+		s.RenderCell(t.X +i, t.Y, &t.Canvas[i])
 	}
 }
 
 // Position returns the (x, y) coordinates of the Text.
 func (t *Text) Position() (int, int) {
-	return t.x, t.y
+	return t.X, t.Y
 }
 
 // Size returns the width and height of the Text.
 func (t *Text) Size() (int, int) {
-	return len(t.text), 1
+	return len(t.Text), 1
 }
 
 // SetPosition sets the coordinates of the Text to be (x, y).
 func (t *Text) SetPosition(x, y int) {
-	t.x = x
-	t.y = y
+	t.X = x
+	t.Y = y
 }
 
 // Text returns the text of the Text.
-func (t *Text) Text() string {
-	return string(t.text)
+func (t *Text) GetText() string {
+	return string(t.Text)
 }
 
 // SetText sets the text of the Text to be text.
 func (t *Text) SetText(text string) {
-	t.text = []rune(text)
-	c := make([]Cell, len(t.text))
+	t.Text = []rune(text)
+	c := make([]Cell, len(t.Text))
 	for i := range c {
-		c[i] = Cell{Ch: t.text[i], Fg: t.fg, Bg: t.bg}
+		c[i] = Cell{Ch: t.Text[i], Fg: t.Fg, Bg: t.Bg}
 	}
-	t.canvas = c
+	t.Canvas = c
 }
 
 // Color returns the (foreground, background) colors of the Text.
 func (t *Text) Color() (Attr, Attr) {
-	return t.fg, t.bg
+	return t.Fg, t.Bg
 }
 
 // SetColor sets the (foreground, background) colors of the Text
 // to fg, bg respectively.
 func (t *Text) SetColor(fg, bg Attr) {
-	t.fg = fg
-	t.bg = bg
-	for i := range t.canvas {
-		t.canvas[i].Fg = fg
-		t.canvas[i].Bg = bg
+	t.Fg = fg
+	t.Bg = bg
+	for i := range t.Canvas {
+		t.Canvas[i].Fg = fg
+		t.Canvas[i].Bg = bg
 	}
 }

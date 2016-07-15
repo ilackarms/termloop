@@ -60,7 +60,7 @@ func (c *Clickable) Draw(s *tl.Screen) {
 func (c *Clickable) Tick(ev tl.Event) {
 	x, y := c.r.Position()
 	if ev.Type == tl.EventMouse && ev.MouseX == x && ev.MouseY == y {
-		if c.r.Color() == tl.ColorWhite {
+		if c.r.GetColor() == tl.ColorWhite {
 			c.r.SetColor(tl.ColorBlack)
 		} else {
 			c.r.SetColor(tl.ColorWhite)
