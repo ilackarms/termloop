@@ -1,5 +1,7 @@
 package termloop
 
+import "github.com/pborman/uuid"
+
 // Level interface represents a Drawable with a separate background
 // that is drawn first. It can also contain Drawables of its own.
 type Level interface {
@@ -17,12 +19,13 @@ type BaseLevel struct {
 	Bg       Cell `json:"Bg"`
 	Offsetx  int `json:"Offsetx"`
 	Offsety  int `json:"Offsety"`
+	UUID string `json:"UUID"`
 }
 
 // NewBaseLevel creates a new BaseLevel with background bg.
 // Returns a pointer to the new BaseLevel.
 func NewBaseLevel(bg Cell) *BaseLevel {
-	level := BaseLevel{Entities: make([]Drawable, 0), Bg: bg}
+	level := BaseLevel{Entities: make([]Drawable, 0), Bg: bg, UUID: uuid.New()}
 	return &level
 }
 

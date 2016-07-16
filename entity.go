@@ -1,5 +1,7 @@
 package termloop
 
+import "github.com/pborman/uuid"
+
 // Provides a general Drawable to be rendered.
 type Entity struct {
 	Canvas Canvas `json:"Canvas"`
@@ -7,6 +9,7 @@ type Entity struct {
 	Y      int `json:"Y"`
 	Width  int `json:"Width"`
 	Height int `json:"Height"`
+	UUID   string `json:"UUID"`
 }
 
 // NewEntity creates a new Entity, with position (x, y) and size
@@ -15,7 +18,7 @@ type Entity struct {
 func NewEntity(x, y, width, height int) *Entity {
 	canvas := NewCanvas(width, height)
 	e := Entity{X: x, Y: y, Width: width, Height: height,
-		Canvas: canvas}
+		Canvas: canvas, UUID: uuid.New()}
 	return &e
 }
 
@@ -29,8 +32,14 @@ func NewEntityFromCanvas(x, y int, c Canvas) *Entity {
 		Canvas: c,
 		Width:  len(c),
 		Height: len(c[0]),
+		UUID: uuid.New(),
 	}
 	return &e
+}
+
+// Returns the UUID for a drawable
+func (e *Entity) GetUUID() string {
+	return e.UUID
 }
 
 // Draw draws the entity to its current position on the screen.

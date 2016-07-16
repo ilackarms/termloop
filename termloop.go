@@ -67,8 +67,18 @@ func CanvasFromString(str string) Canvas {
 	return canvas
 }
 
+type DrawableType string
+
+const (
+	DrawableType_Entity DrawableType = "DrawableType_Entity"
+	DrawableType_Rectangle DrawableType = "DrawableType_Rectangle"
+	DrawableType_Text DrawableType = "DrawableType_Text"
+	DrawableType_Custom DrawableType = "DrawableType_Custom"
+)
+
 // Drawable represents something that can be drawn, and placed in a Level.
 type Drawable interface {
+	GetUUID() string //All drawables must implement an id for syncing client/server state
 	Tick(Event)   // Method for processing events, e.g. input
 	Draw(*Screen) // Method for drawing to the screen
 }
@@ -123,13 +133,13 @@ func (c *Cell) equals(c2 *Cell) bool {
 // Resizing and errors are largely handled by Termloop itself
 // - this would largely be used for input.
 type Event struct {
-	Type   EventType // The type of event
-	Key    Key       // The key pressed, if any
-	Ch     rune      // The character of the key, if any
-	Mod    Modifier  // A keyboard modifier, if any
-	Err    error     // Error, if any
-	MouseX int       // Mouse X coordinate, if any
-	MouseY int       // Mouse Y coordinate, if any
+	Type   EventType `json:"EventType"` // The type of event
+	Key    Key       `json:"Key"` // The key pressed, if any
+	Ch     rune      `json:"Ch"` // The character of the key, if any
+	Mod    Modifier  `json:"Mod"` // A keyboard modifier, if any
+	Err    error     `json:"Err"` // Error, if any
+	MouseX int       `json:"MouseX"` // Mouse X coordinate, if any
+	MouseY int       `json:"MouseY"` // Mouse Y coordinate, if any
 }
 
 func convertEvent(ev termbox.Event) Event {

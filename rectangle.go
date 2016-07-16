@@ -1,5 +1,7 @@
 package termloop
 
+import "github.com/pborman/uuid"
+
 // A type representing a 2D rectangle, with position, size and color.
 type Rectangle struct {
 	X      int `json:"X"`
@@ -7,14 +9,20 @@ type Rectangle struct {
 	Width  int `json:"Width"`
 	Height int `json:"Height"`
 	Color  Attr `json:"Color"`
+	UUID   string `json:"UUID"`
 }
 
 // NewRectangle creates a new Rectangle at position (x, y), with size
 // (width, height) and color color.
 // Returns a pointer to the new Rectangle.
 func NewRectangle(x, y, w, h int, color Attr) *Rectangle {
-	r := Rectangle{X: x, Y: y, Width: w, Height: h, Color: color}
+	r := Rectangle{X: x, Y: y, Width: w, Height: h, Color: color, UUID: uuid.New()}
 	return &r
+}
+
+// Returns the UUID for a drawable
+func (r *Rectangle) GetUUID() string {
+	return r.UUID
 }
 
 // Draws the Rectangle r onto Screen s.

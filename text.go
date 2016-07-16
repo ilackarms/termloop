@@ -1,5 +1,7 @@
 package termloop
 
+import "github.com/pborman/uuid"
+
 // Text represents a string that can be drawn to the screen.
 type Text struct {
 	X      int `json:"X"`
@@ -8,6 +10,7 @@ type Text struct {
 	Bg     Attr `json:"Bg"`
 	Text   []rune `json:"Text"`
 	Canvas []Cell `json:"Canvas"`
+	UUID   string `json:"UUID"`
 }
 
 // NewText creates a new Text, at position (x, y). It sets the Text's
@@ -27,7 +30,13 @@ func NewText(x, y int, text string, fg, bg Attr) *Text {
 		Bg:     bg,
 		Text:   str,
 		Canvas: c,
+		UUID: uuid.New(),
 	}
+}
+
+// Returns the UUID for a drawable
+func (t *Text) GetUUID() string {
+	return t.UUID
 }
 
 func (t *Text) Tick(ev Event) {}
