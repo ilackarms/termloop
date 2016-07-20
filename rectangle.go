@@ -10,13 +10,14 @@ type Rectangle struct {
 	Height int `json:"Height"`
 	Color  Attr `json:"Color"`
 	UUID   string `json:"UUID"`
+	Ch     rune    `json:"Ch"`
 }
 
 // NewRectangle creates a new Rectangle at position (x, y), with size
 // (width, height) and color color.
 // Returns a pointer to the new Rectangle.
 func NewRectangle(x, y, w, h int, color Attr) *Rectangle {
-	r := Rectangle{X: x, Y: y, Width: w, Height: h, Color: color, UUID: uuid.New()}
+	r := Rectangle{X: x, Y: y, Width: w, Height: h, Color: color, UUID: uuid.New(), Ch: ' '}
 	return &r
 }
 
@@ -29,7 +30,7 @@ func (r *Rectangle) GetUUID() string {
 func (r *Rectangle) Draw(s *Screen) {
 	for i := 0; i < r.Width; i++ {
 		for j := 0; j < r.Height; j++ {
-			s.RenderCell(r.X +i, r.Y +j, &Cell{Bg: r.Color, Ch: ' '})
+			s.RenderCell(r.X +i, r.Y +j, &Cell{Bg: r.Color, Ch: r.Ch})
 		}
 	}
 }
