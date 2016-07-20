@@ -124,6 +124,7 @@ func NewBlock(x, y int, color tl.Attr, g *tl.Game, w, h, score int, scoretext *t
 	}
 }
 
+func (b *Block) GetUUID() string     { return b.r.UUID }
 func (b *Block) Size() (int, int)     { return b.r.Size() }
 func (b *Block) Position() (int, int) { return b.r.Position() }
 
@@ -143,6 +144,8 @@ func (b *Block) Tick(ev tl.Event) {
 	if ev.Type == tl.EventKey {
 		b.px, b.py = b.r.Position()
 		switch ev.Key {
+		case tl.KeyEsc:
+			b.r.SetPosition(b.px+1, b.py)
 		case tl.KeyArrowRight:
 			b.r.SetPosition(b.px+1, b.py)
 		case tl.KeyArrowLeft:
