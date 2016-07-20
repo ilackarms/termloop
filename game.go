@@ -141,7 +141,7 @@ func (g *Game) StartServerMode() {
 			}
 			g.screen.Tick(convertEvent(ev))
 		default:
-			g.screen.Tick(Event{Type: EventNone})
+			g.screen.Tick(Event{Type: EventRaw})
 		}
 
 		// If g.screen.fps is zero (the default), then 1000.0/g.screen.fps -> +Inf -> time.Duration(+Inf), which
