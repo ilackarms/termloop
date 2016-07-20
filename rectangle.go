@@ -8,7 +8,8 @@ type Rectangle struct {
 	Y      int `json:"Y"`
 	Width  int `json:"Width"`
 	Height int `json:"Height"`
-	Color  Attr `json:"Color"`
+	Bg     Attr `json:"Bg"`
+	Fg     Attr `json:"Fg"`
 	UUID   string `json:"UUID"`
 	Ch     rune    `json:"Ch"`
 }
@@ -17,7 +18,7 @@ type Rectangle struct {
 // (width, height) and color color.
 // Returns a pointer to the new Rectangle.
 func NewRectangle(x, y, w, h int, color Attr) *Rectangle {
-	r := Rectangle{X: x, Y: y, Width: w, Height: h, Color: color, UUID: uuid.New(), Ch: ' '}
+	r := Rectangle{X: x, Y: y, Width: w, Height: h, Bg: color, UUID: uuid.New(), Ch: ' '}
 	return &r
 }
 
@@ -30,7 +31,7 @@ func (r *Rectangle) GetUUID() string {
 func (r *Rectangle) Draw(s *Screen) {
 	for i := 0; i < r.Width; i++ {
 		for j := 0; j < r.Height; j++ {
-			s.RenderCell(r.X +i, r.Y +j, &Cell{Bg: r.Color, Ch: r.Ch})
+			s.RenderCell(r.X +i, r.Y +j, &Cell{Bg: r.Bg, Fg: r.Fg, Ch: r.Ch})
 		}
 	}
 }
@@ -61,10 +62,10 @@ func (r *Rectangle) SetSize(w, h int) {
 
 // Color returns the color of the Rectangle.
 func (r *Rectangle) GetColor() Attr {
-	return r.Color
+	return r.Bg
 }
 
 // SetColor sets the color of the Rectangle.
 func (r *Rectangle) SetColor(color Attr) {
-	r.Color = color
+	r.Bg = color
 }
